@@ -1,0 +1,42 @@
+
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 500px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Dovemayo_gothic';
+
+}
+
+.vCard {
+    flex-basis: 50%; /* 각 요소가 50%의 너비를 차지하게 설정 */
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.vCard img {
+    max-width: 30%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.vCard-body {
+    margin-top: 10px;
+	font-size: 20px; 
+}
+
+.novel-list {
+    flex: 1;
+    padding: 20px;
+}
+
+.novel-list div {
+    margin-bottom: 10px;
+}
+

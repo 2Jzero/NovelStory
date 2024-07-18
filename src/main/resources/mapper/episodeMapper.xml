@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+        <mapper namespace="com.novelstory.mapper.NovelListMapperInter">
+			<select id="viewEpisode" parameterType="com.novelstory.model.EpisodeTO">
+				select EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, IS_PURCHASED
+				from novel_episode_tb
+				where nvId = #{nvId}
+			</select>
+			
+			<select id="specificEpisode" parameterType="com.novelstory.model.EpisodeTO">
+				select EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, IS_PURCHASED
+				from novel_episode_tb
+				where nvId = #{nvId} and EPISODE = #{EPISODE}
+			</select>
+
+			<update id="isPurchased" parameterType="com.novelstory.model.EpisodeTO">
+				update novel_episode_tb 
+				set IS_PURCHASED = #{isPurchased}  
+				where nvId = #{nvId} and EPISODE = #{EPISODE}
+			</update>
+        </mapper>
+        
+        
+

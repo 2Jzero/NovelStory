@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+        <mapper namespace="com.novelstory.mapper.NovelListMapperInter">
+        	<insert id="novelCrawling" parameterType="com.novelstory.model.NovelListTO">
+        		insert into novel(category, nvtitle, nvwriter, imageurl) 
+        		values (#{category}, #{nvtitle}, #{nvwriter}, #{imageurl})
+        	</insert>
+
+			<select id="novelList" parameterType="com.novelstory.model.NovelListTO">
+				select nvId, category, nvtitle, nvwriter, imageurl
+				from novel
+			</select>
+        	
+        	<select id="categoryList" parameterType="com.novelstory.model.NovelListTO">
+        		select nvId, category, nvtitle, nvwriter, imageurl
+        		from novel
+        		where category = #{category}
+        	</select>
+
+			<select id="novelView" parameterType="com.novelstory.model.NovelListTO">
+				select nvId, category, nvtitle, nvwriter, imageurl
+				from novel
+				where nvId = #{nvId}
+			</select>
+        	
+        	<select id="searchNovelList" parameterType="String" resultType="com.novelstory.model.NovelListTO">
+        		select nvId, category, nvtitle, nvwriter, imageurl
+        		from novel
+        		where nvtitle like concat('%', #{searchWord}, '%')
+        	</select>
+        	
+        <!--  	<insert id="insertData" parameterType="com.novelstory.model.EpisodeTO">
+        		insert into novel_episode_tb(EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, CREATE_DAY, IS_PURCHASED)
+        		values (0, #{nvId}, #{EP_NUM}, #{EP_TITLE}, #{EP_CONTENT}, now(), #{IS_PURCHASED})
+        	</insert>
+		-->
+        </mapper>
+        
+        
+

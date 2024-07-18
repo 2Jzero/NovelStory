@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+        <mapper namespace="com.novelstory.mapper.UserMapperInter">       	
+        	<!-- 회원가입시 유저 정보 저장 -->
+        	<insert id="userSign" parameterType="com.novelstory.model.UserTO">
+        		insert into user(userId, password, userBirth, userPhone, userPoint) 
+        		values (#{userId}, #{password}, #{userBirth}, #{userPhone}, 0)
+        	</insert>
+
+			<select id="userInfo" parameterType="com.novelstory.model.UserTO">
+				select userId, password, userBirth, userPhone, userPoint
+				from user
+				where userId = #{userId}
+			</select>
+			
+			<update id="myPoint" parameterType="com.novelstory.model.UserTO">
+				update user 
+				set userPoint = #{userPoint}  
+				where userId = #{userId}
+			</update>
+        </mapper>
+
+        
+
