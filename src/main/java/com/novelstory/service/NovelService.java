@@ -64,6 +64,7 @@ public class NovelService {
 		return isPurchasedUpdate;
 	}
 	
+//	// 더미 데이터 서비스
 //	public int insertData(EpisodeTO epTO) {
 //		
 //		int flag = 1;

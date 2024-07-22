@@ -6,8 +6,6 @@ $(document).ready(function() {
 		// 클릭된 버튼의 name 값
 		let category = $(this).attr("name");
 
-		console.log(category);
-
 		$.ajax({
 			url: "/main.do",
 			type: "GET",
@@ -37,38 +35,4 @@ $(document).ready(function() {
 		// 기존의 카드들을 모두 삭제하고 새로운 카드들을 추가(sbHtml이 중복될 것을 방지하기 위해 싹 비우고 업데이트)
 		$(".card-container").empty().append(newCards);
 	}
-});
-
-// 회원가입시 입력한 휴대폰으로 인증번호 전송 후 확인 ajax 구현
-$(document).ready(function() {
-	$('#codeBtn').click(function() {
-		let phone = $('#signPhone').val();
-		Swal.fire('인증번호 발송 완료!')
-
-		console.log(phone)
-
-		$.ajax({
-			type: "GET",
-			url: "/check/sendSMS",
-			data: {
-				"phone": phone
-			},
-			success: function(code) {
-				$('#checkBtn').click(function() {
-					if ($.trim(code) == $('#signCode').val()) {
-						Swal.fire('인증성공!')
-
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: '인증오류',
-							text: '인증번호가 올바르지 않습니다!',
-							footer: '<a href="/home">다음에 인증하기</a>'
-						})
-					}
-				})
-
-			}
-		})
-	});
 });

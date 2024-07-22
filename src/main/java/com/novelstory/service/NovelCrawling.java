@@ -22,8 +22,8 @@ public class NovelCrawling implements Nservice {
 		int res = 0;
 
 		String baseUrl = "https://page.kakao.com/menu/10011/screen/";
-		String[] category = { "Fantasy", "RoFantasy", "RealFantasy" };
-		String[] categoryNum = { "91", "92", "64" };
+		String[] category = { "Fantasy", "RealFantasy", "RoFantasy", "Romance", "Wuxia", "Drama" };
+		String[] categoryNum = { "91", "64", "92", "68", "70","100" };
 
 		for (int i = 0; i < categoryNum.length; i++) {
 

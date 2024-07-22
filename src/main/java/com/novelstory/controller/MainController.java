@@ -1,6 +1,9 @@
 package com.novelstory.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +62,7 @@ public class MainController {
 //					epTO.setEP_CONTENT(nvTO.getNvtitle() + " " + m + "화입니다.");
 //					epTO.setIS_PURCHASED("무료"); 
 //					if(m > 3) {
-//						epTO.setIS_PURCHASED("X");
+//						epTO.setIS_PURCHASED("");
 //					}
 //					
 //					int flag = service.insertData(epTO);
@@ -91,41 +94,64 @@ public class MainController {
 	}
 	
 	@RequestMapping("viewEpisode.do")
-	public ModelAndView viewEpisode(@RequestParam("nvId") String nvId, @RequestParam("episode") String EPISODE, HttpServletRequest request, HttpSession session) {
-		
+	public ModelAndView viewEpisode(@RequestParam("nvId") String nvId, @RequestParam("episode") String EPISODE, 
+			HttpServletRequest request, HttpSession session) {
+
+		ModelAndView modelAndView = new ModelAndView();
+
 		NovelListTO nvTO = service.novelView(nvId);
 		
 		EpisodeTO epTO = service.specificEpisode(nvId, EPISODE);
 		
 		String isPurchased = epTO.getIS_PURCHASED();
 		
+		// X를 조건식에 사용하기 위함
+    	Set<String> purchasedIdsSet = new HashSet<>(Arrays.asList(epTO.getIS_PURCHASED().split("/")));
+		
 		
 		String userId = (String)session.getAttribute("logId");
 		Integer myPoint = (Integer)session.getAttribute("point");
 
 		
-		// 유료 포인트 사용시 차감, 포은트 부족 시 대처 방법 기술
-		if(isPurchased.equals("X")) {
-			// 100포인트 차감
-			myPoint = myPoint - 100;
+		// 유료 포인트 사용시 차감, 포은트 부족 시 대처 방법 기술, 무료보기일 경우는 제외하기
+		if(!purchasedIdsSet.contains(userId) && !purchasedIdsSet.contains("무료")) {
 			
-			// 구매한 소설의 구매상태를 소장으로 바꿈
-			isPurchased = "소장";
-			
-			// 사용자 정보에 포인트 값 갱신
-			int pointUpdate = uService.myPoint(myPoint, userId);
-			
-			// 구매 상태 소장으로 변경
-			int isPurchasedUpdate = service.isPurchased(isPurchased, nvId, EPISODE);
-			
+			// 포인트가 최소단위인 100원보다 부족할 경우 결제 막기(마이너스 방지)
+			if(myPoint < 100) {			
+				// 결제 실패창으로 이동
+			    modelAndView.setViewName("redirect:/purchaseFail"); // main.do로 리다이렉트    
+			    return modelAndView;
+			} else {
+				//100포인트 차감
+				myPoint = myPoint - 100;
+
+				// 소설을 구매한 아이디(세션)값을 입력 -> 구매내역 확인, 구매한 물품 소장으로 바꾸기 등 활용 가능
+				isPurchased += "/"+userId;
+				
+				// 사용자 정보에 포인트 값 갱신
+				int pointUpdate = uService.myPoint(myPoint, userId);
+				
+				// 구매 상태 소장으로 변경
+				int isPurchasedUpdate = service.isPurchased(isPurchased, nvId, EPISODE);
+			}
+										
 			// 포인트 값 갱신
 			session.setAttribute("point", myPoint);
 		}
 		
-		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main/viewEpisode");
 		modelAndView.addObject("nvTO", nvTO);
 		modelAndView.addObject("epTO", epTO);
+		return modelAndView;
+	}
+	
+	// 소설 구매 실패 페이지
+	@RequestMapping("/purchaseFail")
+	public ModelAndView purchaseFail() {
+
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("payment/purchaseFail");
 		return modelAndView;
 	}
 
@@ -159,7 +185,7 @@ public class MainController {
 		session.setAttribute("point", myPoint);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("payment/success");
+		modelAndView.setViewName("payment/paySuccess");
 		modelAndView.addObject("amount", amount);
 		return modelAndView;
 	}
@@ -168,10 +194,9 @@ public class MainController {
 	@RequestMapping("/fail")
 	public ModelAndView paymentFail() {
 
-		System.out.print("결제 실패입니다!");
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("payment/fail");
+		modelAndView.setViewName("payment/payFail");
 		return modelAndView;
 	}
 

@@ -72,20 +72,18 @@
 </nav>
 
 <!-- 로그인 모달 부분 -->
-<form action="novelStoryLogin.do" method="post">
-	<div id="logModal" class="modal">
-		<div class="modal-content">
-	    	<div class="modal-header">
-            	<span class="headLine">로그인</span>
-                <span class="close">&times;</span>
-            </div>
-	        아이디 <input type="text" id="loginId" name="loginId" />
-	        비밀번호 <input type="password" id="loginPw" name="loginPw" />
-	        <button type="submit" class="btn btn-info" id="login">로그인</button>
-	        <a id="signModal">회원가입</a>
-	    </div>
+<div id="logModal" class="modal">
+	<div class="modal-content">
+	    <div class="modal-header">
+            <span class="headLine">로그인</span>
+            <span class="close">&times;</span>
+        </div>
+	    아이디 <input type="text" id="loginId" name="loginId" />
+	    비밀번호 <input type="password" id="loginPw" name="loginPw" />
+	    <button type="submit" class="btn btn-info" id="login">로그인</button>
+	    <a id="signModal">회원가입</a>
 	</div>
-</form>
+</div>
     
 <!-- 회원가입 모달 부분 -->
 <form action="novelStorySign.do" method="post">

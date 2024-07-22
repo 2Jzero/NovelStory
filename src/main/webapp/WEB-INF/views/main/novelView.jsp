@@ -1,3 +1,6 @@
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.Set"%>
 <%@page import="com.novelstory.model.EpisodeTO"%>
 <%@page import="com.novelstory.model.NovelListTO"%>
 <%@page import="java.util.ArrayList"%>
@@ -16,9 +19,10 @@
 	
 	String nvId = "";
 	String episode = "";
-	String isPurchased = "";
 	
 	StringBuilder sbHtml = new StringBuilder();
+	
+	System.out.println(idSession);
 	
 	// 필터링
 	if(nvTO.getCategory().equals("Fantasy")) {
@@ -31,7 +35,9 @@
 		
 		nvId = nvTO.getNvId();
 		episode = epTO.getEPISODE();
-		isPurchased = epTO.getIS_PURCHASED();
+	    // 중복을 고려하여 Set 사용하고 세션 배열을 리스트로 변환한 후 저장
+    	Set<String> purchasedIdsSet = new HashSet<>(Arrays.asList(epTO.getIS_PURCHASED().split("/")));
+
 		
 		sbHtml.append("<a>" + nvTO.getNvtitle() + " " + epTO.getEP_NUM() + "화 </a>");
 		if(epTO.getEP_NUM() < 4) {
@@ -39,11 +45,11 @@
 			sbHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 무료 보기 </a>");
 			
 		} else {
-			if(isPurchased.equals("X")) {
+			if(!purchasedIdsSet.contains(idSession)) { // 현재 세션 아이디값으로 소설을 구매했는지 검사
 				
 	            sbHtml.append("<a href='#' onclick='return confirmPurchase(\"" + nvId + "\", \"" + episode + "\");'> 100P </a>");
 
-			} else if(isPurchased.equals("소장")) {
+			} else if(purchasedIdsSet.contains(idSession)) {
 				
 				sbHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 소장됨 </a>");
 
@@ -119,20 +125,18 @@
 </nav>
 
 <!-- 로그인 모달 부분 -->
-<form action="novelStoryLogin.do" method="post">
-	<div id="logModal" class="modal">
-		<div class="modal-content">
-	    	<div class="modal-header">
-            	<span class="headLine">로그인</span>
-                <span class="close">&times;</span>
-            </div>
-	        아이디 <input type="text" id="loginId" name="loginId" />
-	        비밀번호 <input type="password" id="loginPw" name="loginPw" />
-	        <button type="submit" class="btn btn-info" id="login">로그인</button>
-	        <a id="signModal">회원가입</a>
-	    </div>
+<div id="logModal" class="modal">
+	<div class="modal-content">
+	    <div class="modal-header">
+            <span class="headLine">로그인</span>
+            <span class="close">&times;</span>
+        </div>
+	    아이디 <input type="text" id="loginId" name="loginId" />
+	    비밀번호 <input type="password" id="loginPw" name="loginPw" />
+	    <button type="submit" class="btn btn-info" id="login">로그인</button>
+	    <a id="signModal">회원가입</a>
 	</div>
-</form>
+</div>
     
 <!-- 회원가입 모달 부분 -->
 <form action="novelStorySign.do" method="post">

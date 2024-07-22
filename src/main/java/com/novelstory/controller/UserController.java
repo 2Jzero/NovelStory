@@ -25,19 +25,25 @@ public class UserController {
 
 	// 로그인
 	@RequestMapping("novelStoryLogin.do")
-	public ModelAndView userLogin(HttpServletRequest request) {
+	public ModelAndView userLogin() {
 		
-		// 로그인에 입력한 id, pw 값
-		String id = request.getParameter("loginId");
-		String pw = request.getParameter("loginPw");
+		
+		ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("redirect:/main.do"); // main.do로 리다이렉트
+		
+		return modelAndView;
+	}
+	
+	// 로그인 id, pw 체크용
+	@RequestMapping("loginCheck.do")
+	public int loginCheck(@RequestParam String id, @RequestParam String pw, HttpServletRequest request) {
 		
 		// 세션을 만들기 위해 로그인한 정보를 가져오기
 		UserTO loginTO = service.userInfo(id);
-
-		boolean flag = service.userLogin(id, pw);
+				
+		int loginFlag = service.userLogin(id, pw);
 		
-		
-		if(flag) {
+		if(loginFlag == 0) {
 			HttpSession session = request.getSession();
 			
 			session.setAttribute("logId", loginTO.getUserId());
@@ -48,10 +54,7 @@ public class UserController {
 
 		}
 		
-		ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("redirect:/main.do"); // main.do로 리다이렉트
-		
-		return modelAndView;
+		return loginFlag;
 	}
 	
 	

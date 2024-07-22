@@ -93,23 +93,21 @@
 </nav>
 
 <!-- 로그인 모달 부분 -->
-<form action="novelStoryLogin.do" method="post">
-	<div id="logModal" class="modal">
-		<div class="modal-content">
-	    	<div class="modal-header">
-            	<span class="headLine">로그인</span>
-                <span class="close">&times;</span>
-            </div>
-	        아이디 <input type="text" id="loginId" name="loginId" />
-	        비밀번호 <input type="password" id="loginPw" name="loginPw" />
-	        <button type="submit" class="btn btn-info" id="login">로그인</button>
-	        <a id="signModal">회원가입</a>
-	    </div>
+<div id="logModal" class="modal">
+	<div class="modal-content">
+	    <div class="modal-header">
+            <span class="headLine">로그인</span>
+            <span class="close">&times;</span>
+        </div>
+	    아이디 <input type="text" id="loginId" name="loginId" />
+	    비밀번호 <input type="password" id="loginPw" name="loginPw" />
+	    <button type="submit" class="btn btn-info" id="login">로그인</button>
+	    <a id="signModal">회원가입</a>
 	</div>
-</form>
+</div>
     
 <!-- 회원가입 모달 부분 -->
-<form action="novelStorySign.do" method="post">
+<form action="novelStorySign.do" method="post" name="nfrm">
 	<div id="sgModal" class="modal">
 	    <div class="modal-content">
 	    	<div class="modal-header">
@@ -138,9 +136,9 @@
 	        </div>
 			<div class="code">
 	        <input type="text" id="signCode" name="signCode" placeholder="인증번호" />
-	        <button type="button" id="checkBtn" name="checkBtn">인증확인</button>
+	        <button type="button" id="checkBtn" name="checkBtn" disabled>인증확인</button>
 	        </div>
-	        <button type="submit" class="btn btn-info">회원가입</button>
+	        <button type="submit" class="btn btn-info" id="signOk">회원가입</button>
 	  	</div>
   	</div>    
 </form>
@@ -150,11 +148,11 @@
 <div class="extranav">웹소설 랭킹</div>
 <div class="btn-container">
     <button type="button" class="btn btn-outline-success" name="Fantasy">판타지</button>
-    <button type="button" class="btn btn-outline-success" name="realFantasy">현판</button>
-    <button type="button" class="btn btn-outline-success" name="romance">로맨스</button>
+    <button type="button" class="btn btn-outline-success" name="RealFantasy">현판</button>
     <button type="button" class="btn btn-outline-success" name="RoFantasy">로판</button>
-    <button type="button" class="btn btn-outline-success" name="thriller">스릴러</button>
-    <button type="button" class="btn btn-outline-success" name="moved">감동</button>
+    <button type="button" class="btn btn-outline-success" name="Romance">로맨스</button>
+    <button type="button" class="btn btn-outline-success" name="Wuxia">무협</button>
+    <button type="button" class="btn btn-outline-success" name="Drama">드라마</button>
 </div>
 
 <div class="card-container">
@@ -162,7 +160,8 @@
 </div>
 
 
-<!-- 모달 관련 스크립 -->
+<!-- js 스크립 -->
+<script src="./assets/js/signUp.js"></script>
 <script src="./assets/js/logout.js"></script>
 <script src="./assets/js/modal.js"></script>
 <script src="./assets/js/birthday.js"></script>

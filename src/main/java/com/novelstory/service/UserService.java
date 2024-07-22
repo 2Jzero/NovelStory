@@ -41,7 +41,9 @@ public class UserService {
 	}
 	
 	// 로그인
-	public boolean userLogin(String id, String pw) {
+	public int userLogin(String id, String pw) {
+		
+		int loginFlag = 1;
 		
 		UserTO login = mapper.userInfo(id);
 				
@@ -49,12 +51,15 @@ public class UserService {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			String dbPassword = login.getPassword(); // db에 저장되어 있는 암호화 비밀번호
 						
-			if(encoder.matches(pw, dbPassword)) {				
+			if(encoder.matches(pw, dbPassword)) {
+				
 				// 비밀번호 일치
-				return true;
+				loginFlag = 0;
+				
+				return loginFlag;
 			}
 		}		
-		return false;	
+		return loginFlag;	
 	}
 	
 	// 로그인한 유저의 정보

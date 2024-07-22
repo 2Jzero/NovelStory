@@ -31,11 +31,11 @@
         		where nvtitle like concat('%', #{searchWord}, '%')
         	</select>
         	
-        <!--  	<insert id="insertData" parameterType="com.novelstory.model.EpisodeTO">
+        <!-- <insert id="insertData" parameterType="com.novelstory.model.EpisodeTO">
         		insert into novel_episode_tb(EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, CREATE_DAY, IS_PURCHASED)
         		values (0, #{nvId}, #{EP_NUM}, #{EP_TITLE}, #{EP_CONTENT}, now(), #{IS_PURCHASED})
-        	</insert>
-		-->
+        	</insert> -->
+		
         </mapper>
         
         
