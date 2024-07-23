@@ -30,8 +30,8 @@ public class MainController {
 	private UserService uService;
 
 	// Novel Story 메인 화면
-	@RequestMapping("main.do")
-	public ModelAndView main(@RequestParam(value= "category", required = false)  String category, HttpServletRequest request) {
+	@RequestMapping("novelStory.do")
+	public ModelAndView novelStory(@RequestParam(value= "category", required = false)  String category, HttpServletRequest request) {
 		
 		ArrayList<NovelListTO> novelList = service.novelList();
 						
@@ -71,7 +71,7 @@ public class MainController {
 //		}
 				
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("main/main");
+		modelAndView.setViewName("main/novelStory");
 		modelAndView.addObject("categoryList", categoryList);
 		return modelAndView;
 	}
@@ -119,7 +119,7 @@ public class MainController {
 			// 포인트가 최소단위인 100원보다 부족할 경우 결제 막기(마이너스 방지)
 			if(myPoint < 100) {			
 				// 결제 실패창으로 이동
-			    modelAndView.setViewName("redirect:/purchaseFail"); // main.do로 리다이렉트    
+			    modelAndView.setViewName("redirect:/purchaseFail");  
 			    return modelAndView;
 			} else {
 				//100포인트 차감

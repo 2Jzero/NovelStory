@@ -65,22 +65,17 @@
 
 <nav id="nav3" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
-        <a href="main.do"><img src="./assets/images/NSLogo.png"></a>
-        <ul>
-            <li><a href="main.do">웹소설</a></li>
-            <li><a href="novelstorypayments.do">토큰 구매</a></li>
-            <li><a href="#">내서재</a></li>
-        </ul>
+        <a href="novelStory.do"><img src="./assets/images/NSLogo.png"></a>
     </div>
-
     <div>
 	    <ul class="navbar-nav mr-auto">
 	        <li>
-	            <form id="sfrm" action="main.do" method="POST">
+	            <form id="sfrm" action="novelStory.do" method="POST">
 	                <input type="text" name="searchWord" placeholder="제목을 입력하세요">
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
+	        <li><a href="novelstorypayments.do">토큰 구매</a></li>
 			<% if (idSession == null) { %>
 	        	<li><a id="loginModal">로그인</a></li>
 			<% } else { %>
@@ -161,11 +156,11 @@
 
 
 <!-- js 스크립 -->
+<script src="./assets/js/log.js"></script>
 <script src="./assets/js/signUp.js"></script>
-<script src="./assets/js/logout.js"></script>
 <script src="./assets/js/modal.js"></script>
 <script src="./assets/js/birthday.js"></script>
-<script src="./assets/js/ajax.js"></script>
+<script src="./assets/js/categoryAjax.js"></script>
 
 	
 </body>

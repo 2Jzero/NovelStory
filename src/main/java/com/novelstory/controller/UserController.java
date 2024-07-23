@@ -29,7 +29,7 @@ public class UserController {
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("redirect:/main.do"); // main.do로 리다이렉트
+	    modelAndView.setViewName("redirect:/novelStory.do"); // novelStory.do로 리다이렉트
 		
 		return modelAndView;
 	}
@@ -113,7 +113,7 @@ public class UserController {
 		session.invalidate();
 		
 		ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("redirect:/main.do"); // main.do로 리다이렉트
+	    modelAndView.setViewName("redirect:/novelStory.do"); // novelStory.do로 리다이렉트
 
 		return modelAndView;
 		

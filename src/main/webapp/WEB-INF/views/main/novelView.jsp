@@ -92,34 +92,25 @@
 </style>
 </head>
 <body>
-
+<!--  세션을 이용하여 로그인하지 않으면 못들어가게 차단 -->
+<% if(idSession != null) { %>
 <!-- 메뉴바 -->
-
 <nav id="nav3" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
-        <a href="main.do"><img src="./assets/images/NSLogo.png"></a>
-        <ul>
-            <li><a href="main.do">웹소설</a></li>
-            <li><a href="novelstorypayments.do">토큰 구매</a></li>
-            <li><a href="#">내서재</a></li>
-        </ul>
+        <a href="novelStory.do"><img src="./assets/images/NSLogo.png"></a>
     </div>
-
     <div>
 	    <ul class="navbar-nav mr-auto">
 	        <li>
-	            <form id="sfrm" action="main.do" method="POST">
+	            <form id="sfrm" action="novelStory.do" method="POST">
 	                <input type="text" name="searchWord" placeholder="제목을 입력하세요">
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
-			<% if (idSession == null) { %>
-	        	<li><a id="loginModal">로그인</a></li>
-			<% } else { %>
-			    <li><a id="mypage"> <%=idSession %>의 페이지</a></li>
-		        <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
-			    <li><a id="logout">로그아웃</a></li>
-			<% } %>
+	        <li><a href="novelstorypayments.do">토큰 구매</a></li>
+			<li><a id="mypage"> <%=idSession %>의 페이지</a></li>
+		    <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
+			<li><a id="logout">로그아웃</a></li>
 	    </ul>
 	</div>
 </nav>
@@ -137,44 +128,6 @@
 	    <a id="signModal">회원가입</a>
 	</div>
 </div>
-    
-<!-- 회원가입 모달 부분 -->
-<form action="novelStorySign.do" method="post">
-	<div id="sgModal" class="modal">
-	    <div class="modal-content">
-	    	<div class="modal-header">
-                <span class="headLine">회원가입</span>
-                <span class="close">&times;</span>
-            </div>
-	        아이디 
-	        <input type="text" id="signId" name="signId" />
-	        비밀번호 
-	        <input type="password" id="signPw" name="signPw" />
-			<div class="info" id="info__birth">
-				<select class="box" id="birth-year" name="birth-year">
-			    	<option disabled selected>년</option>
-			  </select>
-			  <select class="box" id="birth-month" name="birth-month">
-			    	<option disabled selected>월</option>
-			  </select>
-			  <select class="box" id="birth-day" name="birth-day">
-			    	<option disabled selected>일</option>
-			  </select>
-			</div>
-	        전화번호
-			<div class="phone">	         
-	        <input type="text" id="signPhone" name="signPhone" placeholder="-빼고입력" />
-	       	<button type="button" id="codeBtn" name="codeBtn">인증번호 발송</button>
-	        </div>
-			<div class="code">
-	        <input type="text" id="signCode" name="signCode" placeholder="인증번호" />
-	        <button type="button" id="checkBtn" name="checkBtn">인증확인</button>
-	        </div>
-	        <button type="submit" class="btn btn-info">회원가입</button>
-	  	</div>
-  	</div>    
-</form>
-
 
 <div class="container">
 	<div class="vCard">
@@ -196,11 +149,21 @@
 </div>
 
 <!-- 모달 관련 스크립 -->
-<script src="./assets/js/logout.js"></script>
-<script src="./assets/js/modal.js"></script>
-<script src="./assets/js/birthday.js"></script>
-<script src="./assets/js/ajax.js"></script>
+<script src="./assets/js/log.js"></script>
 
-	
+<% } else { %>
+<script>
+window.onload = function() {
+    Swal.fire({
+        title: '로그인',
+        text: '로그인이 필요합니다!',
+        icon: 'error',
+        confirmButtonText: '확인'
+    }).then(function() {
+        history.back();
+    });
+}
+</script>
+<% } %>	
 </body>
 </html>
