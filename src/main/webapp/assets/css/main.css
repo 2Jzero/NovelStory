@@ -223,8 +223,7 @@
 .card {
 	width: 13rem; /* 카드의 너비를 13rem으로 설정 */
 	border-radius: 15px;
-	margin: 11.5px; 
-	
+	margin: 11.5px; 	
 }
 
 /* 결제 리스트 카드 */

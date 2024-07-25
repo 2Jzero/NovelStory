@@ -7,7 +7,7 @@ $(document).ready(function() {
 		let category = $(this).attr("name");
 
 		$.ajax({
-			url: "/main.do",
+			url: "/novelStory.do",
 			type: "GET",
 			data: {
 				"category": category

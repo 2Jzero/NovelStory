@@ -31,6 +31,42 @@
 	font-size: 20px; 
 }
 
+.otherLayer {
+	padding-top: 100px;
+	text-align: center;
+	font-family: 'Dovemayo_gothic';
+	font-size: 25px;
+}
+
+.container2 {
+	display: flex;
+    width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	justify-content: center;
+	text-align: center;
+	font-family: 'Dovemayo_gothic';
+	font-size: 25px;
+	border: 2px solid #ddd;
+}
+
+.fCard {
+    padding-top: 50px;
+}
+
+.fCard img {
+    max-width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.fCard-body {
+	font-size: 20px; 
+}
+
 .novel-list {
     flex: 1;
     padding: 20px;

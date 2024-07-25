@@ -39,6 +39,13 @@ public class NovelService {
 		return mapper.novelView(nvId);
 	}
 	
+	// 작가의 다른 작품 리스트
+	public ArrayList<NovelListTO> ohterNovel(String nvwriter) {
+		
+		return mapper.ohterNovel(nvwriter);
+	}
+
+	
 	// 특정 소설의 회차목록
 	public ArrayList<EpisodeTO> viewEpisode(String nvId) {
 		

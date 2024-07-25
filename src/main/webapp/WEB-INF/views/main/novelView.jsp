@@ -8,10 +8,14 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%	
+	// nvId를 위한 변수
 	NovelListTO nvTO = (NovelListTO) request.getAttribute("nvTO");
+	// 소설의 회차 리스트
 	ArrayList<EpisodeTO> epList = (ArrayList) request.getAttribute("epList");
+	// 작가의 다른 작품 리스트
+	ArrayList<NovelListTO> otherList = (ArrayList) request.getAttribute("otherList");
 
-	// 로그인한 회원의 id session
+	// 로그인한 회원의 id session , point
 	String idSession = (String)session.getAttribute("logId");
 	Integer myPoint = (Integer)session.getAttribute("point");
 
@@ -20,7 +24,10 @@
 	String nvId = "";
 	String episode = "";
 	
-	StringBuilder sbHtml = new StringBuilder();
+	// 회차 리스트 html
+	StringBuilder epHtml = new StringBuilder();
+	
+	StringBuilder otherHtml = new StringBuilder();
 	
 	System.out.println(idSession);
 	
@@ -29,43 +36,60 @@
 		category = "판타지";
 	} else if(nvTO.getCategory().equals("RoFantasy")) {
 		category = "로판";
+	} else if(nvTO.getCategory().equals("RealFantasy")) {
+		category = "현판";
+	} else if(nvTO.getCategory().equals("Romance")) {
+		category = "로맨스";
+	} else if(nvTO.getCategory().equals("Wuxia")) {
+		category = "무협";
+	} else if(nvTO.getCategory().equals("Drama")) {
+		category = "드라마";
 	}
 	
+	// 회차 리스트 띄우기
 	for(EpisodeTO epTO : epList) {
 		
 		nvId = nvTO.getNvId();
 		episode = epTO.getEPISODE();
 	    // 중복을 고려하여 Set 사용하고 세션 배열을 리스트로 변환한 후 저장
     	Set<String> purchasedIdsSet = new HashSet<>(Arrays.asList(epTO.getIS_PURCHASED().split("/")));
-
-		
-		sbHtml.append("<a>" + nvTO.getNvtitle() + " " + epTO.getEP_NUM() + "화 </a>");
-		if(epTO.getEP_NUM() < 4) {
-			
-			sbHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 무료 보기 </a>");
-			
+	    
+		epHtml.append("<a>" + nvTO.getNvtitle() + " " + epTO.getEP_NUM() + "화 </a>");
+		if(epTO.getEP_NUM() < 4) {	
+			epHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 무료 보기 </a>");			
 		} else {
-			if(!purchasedIdsSet.contains(idSession)) { // 현재 세션 아이디값으로 소설을 구매했는지 검사
-				
-	            sbHtml.append("<a href='#' onclick='return confirmPurchase(\"" + nvId + "\", \"" + episode + "\");'> 100P </a>");
-
-			} else if(purchasedIdsSet.contains(idSession)) {
-				
-				sbHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 소장됨 </a>");
-
+			if(!purchasedIdsSet.contains(idSession)) { // 현재 세션 아이디값으로 소설을 구매했는지 확인
+	            epHtml.append("<a href='#' onclick='return confirmPurchase(\"" + nvId + "\", \"" + episode + "\");'> 100P </a>");
+			} else if(purchasedIdsSet.contains(idSession)) {				
+				epHtml.append("<a href='viewEpisode.do?nvId=" + nvId + "&episode=" + episode + "'name='free'> 소장됨 </a>");
 			}
 		}
-		sbHtml.append("<br>");
+		epHtml.append("<br>");
 	}
 	
-	sbHtml.append("<script>");
-	sbHtml.append("function confirmPurchase(nvId, episode) {");
-	sbHtml.append("    if (confirm('100P를 사용하여 이 에피소드를 구매하시겠습니까?')) {");  // 이 if문 위에다 넣어보기 내일 ㅇㅇ
-	sbHtml.append("        window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode;");
-	sbHtml.append("    }");
-	sbHtml.append("}");
-	sbHtml.append("</script>");
+	// 확인창 -> 확인을 누르면 100원 차감되고 페이지 이동
+	epHtml.append("<script>");
+	epHtml.append("function confirmPurchase(nvId, episode) {");
+	epHtml.append("    if (confirm('100P를 사용하여 이 에피소드를 구매하시겠습니까?')) {");  // 이 if문 위에다 넣어보기 내일 ㅇㅇ
+	epHtml.append("        window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode;");
+	epHtml.append("    }");
+	epHtml.append("}");
+	epHtml.append("</script>");
 	
+	
+	// 작가의 다른 작품 리스트
+	for(NovelListTO other : otherList) {
+		
+		if(!nvTO.getNvtitle().equals(other.getNvtitle())) {
+	    otherHtml.append("<div class='fCard'>");
+	    otherHtml.append("<a href='novelView.do?nvId="+ other.getNvId() +"'>");
+	    otherHtml.append("<img src='" + other.getImageurl() + "' class='fCard-img' alt='...'>");
+	    otherHtml.append("</a>"); 
+	    otherHtml.append("<div class='fCard-body'>" + other.getNvtitle() + "</div>");
+	    otherHtml.append("</div>");
+		}
+
+	}
 
 %>
 <html>
@@ -137,15 +161,14 @@
 		<div class="vCard-body" style="font-size: 17px;">장르 : <%=category %></div>
 	</div>
 	<div class="novel-list">
-		<%=sbHtml %>	
+		<%=epHtml %>	
 	</div>
 </div>
 
 
-<div class="footer">
-<div class="fCard">
-	작가의 다른 작품 :
-</div>
+<div class="otherLayer">작가의 다른 작품</div> 
+<div class="container2">
+	<%=otherHtml %>
 </div>
 
 <!-- 모달 관련 스크립 -->

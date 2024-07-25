@@ -83,13 +83,25 @@ public class MainController {
 		
 		nvTO = service.novelView(nvId);
 		
+		String nvwriter = nvTO.getNvwriter();
+		
+		// 다른 작품 리스트에서 현재 소설의 중복을 제거하기 위함
+		String currentNvId = nvId;
+		
 		ArrayList<EpisodeTO> epList = service.viewEpisode(nvId);
 		
+		// 작가의 다른 작품
+		ArrayList<NovelListTO> otherList = new ArrayList<>();
+		
+		// 작가의 다른 작품
+			otherList = service.ohterNovel(nvwriter);
+
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("main/novelView");
 		modelAndView.addObject("nvTO", nvTO);
 		modelAndView.addObject("epList", epList);
+		modelAndView.addObject("otherList", otherList);
 		return modelAndView;
 	}
 	

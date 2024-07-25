@@ -24,6 +24,12 @@
 				from novel
 				where nvId = #{nvId}
 			</select>
+			
+			<select id="ohterNovel" parameterType="com.novelstory.model.NovelListTO">
+				select nvId, category, nvtitle, imageurl
+				from novel
+				where nvwriter = #{nvwriter}
+			</select>
         	
         	<select id="searchNovelList" parameterType="String" resultType="com.novelstory.model.NovelListTO">
         		select nvId, category, nvtitle, nvwriter, imageurl

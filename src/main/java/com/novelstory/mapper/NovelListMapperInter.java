@@ -25,6 +25,9 @@ public interface NovelListMapperInter {
     
 	/* 선택한 소설의 뷰 리스트 */
 	NovelListTO novelView(String nvId);
+	
+	/* 작가의 다른 작품 리스트 */
+	ArrayList<NovelListTO> ohterNovel(String nvwriter);
     
 	/* 선택한 소설의 회차 접근 */
 	ArrayList<EpisodeTO> viewEpisode(String nvId);
