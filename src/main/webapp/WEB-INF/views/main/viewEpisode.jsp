@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@page import="com.novelstory.model.EpisodeTO"%>
 <%@page import="com.novelstory.model.NovelListTO"%>
 <%@page import="java.util.ArrayList"%>
@@ -7,10 +8,16 @@
 <%	
 	NovelListTO nvTO = (NovelListTO) request.getAttribute("nvTO");
 	EpisodeTO epTO = (EpisodeTO) request.getAttribute("epTO");
-
+	// 소설의 마지막화를 나타내는 변수
+	int epNumMax = (Integer) request.getAttribute("epNumMax");
+	
 	// 로그인한 회원의 id session
 	String idSession = (String)session.getAttribute("logId");
 	Integer myPoint = (Integer)session.getAttribute("point");
+	
+	// 이전화, 다음화 설정에 필요한 변수
+	String nvId = nvTO.getNvId();
+	int epNum = epTO.getEP_NUM();
 	
 	StringBuilder sbHtml = new StringBuilder();
 	
@@ -83,9 +90,140 @@
 	<%=sbHtml %>
 </div>
 
-
-<div class="footer">
+<div class="button-container">
+    <button class="backward" id="backward" title="이전화"><i class="fa-solid fa-backward"></i></button>
+    <button class="forward" id="forward" title="다음화"><i class="fa-solid fa-forward"></i></button>
 </div>
+
+
+<script>
+	$(document).ready(function() {
+		
+		let nvId = <%=nvId %>
+		let epNum = <%=epNum %>
+		let epNumMax = <%=epNumMax %>
+		// 자바 변수를 자바스크립트의 문자열로 인식하도록 ""로 문자열로 만들어 안전하게 전달
+		const idSession = "<%=idSession %>";
+		
+		// 이전화로 이동
+        $("#backward").click(function() {
+        	// 처음화일 경우 경고창
+        	if(epNum == 1) {
+        		 Swal.fire({
+        		        title: '알림',
+        		        text: '작품의 첫 화입니다.!',
+        		        icon: 'error',
+        		        confirmButtonText: '확인'
+        		});
+        	} else {
+        		$.ajax({
+					url: "epBackward.do",
+					type: "GET",
+					data: {
+						nvId: nvId,
+						epNum: epNum					
+					},
+					success: function(response) {				
+			            // 서버에서 반환된 JSON 객체
+			            let episode = response.EPISODE;
+			            let nextEpNum = response.EP_NUM;
+			            let nextIsPurchased = response.IS_PURCHASED;
+
+			        	// 4화부터 유료분이므로, 그에 따른 확인창 생성		        	
+						// 가끔 4화를 구매해야하는데 5화를 구매하는 경우 이전화를 누를때 그냥 넘어가는것을 방지하기위해 이 조건문을 걸어줌
+						// 이렇게 하면 이전화 버튼을 누를시에 무료화여도 알림창이 뜨는 경우가 있어 이를 방지하기 위해 무료도 확인
+						if (nextEpNum > 3 && !nextIsPurchased.includes(idSession) && !nextIsPurchased.includes("무료")) {
+			        		Swal.fire({
+			        	        title: '알림',
+			        	        text: '유료화입니다. 소장하시겠습니까? (100P 소모)',
+			                    icon: 'warning',
+			                    showCancelButton: true,
+			                    confirmButtonText: '확인',
+			                    cancelButtonText: '취소'
+			        	    }).then((result) => {
+			        	    	if(result.isConfirmed) {
+			        	    		Swal.fire({
+			        					title: "구매 완료! 100P 차감됩니다.",
+			        					showConfirmButton: false, // OK 버튼을 숨김
+			        					timer: 1000
+			        				}).then(function() {				        	    	
+					        			window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode; // 페이지 리다이렉트
+					        	    	});
+					        	    };
+			        	    	});
+			        	}
+			        	else {
+						window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode; // 페이지 리다이렉트
+			        	}
+					},
+					error: function(error) {
+						// 오류 처리
+						console.error("Error: " + error);
+					}
+				});
+			}
+		});
+		
+		// 다음화로 이동
+        $("#forward").click(function() {			
+        	// 처음화일 경우 경고창
+        	if(epNum == epNumMax) {
+        		 Swal.fire({
+        		        title: '알림',
+        		        text: '작품의 마지막 화입니다.!',
+        		        icon: 'error',
+        		        confirmButtonText: '확인'
+        		});
+        	} else {
+        		$.ajax({
+					url: "epForward.do",
+					type: "GET",
+					data: {
+						nvId: nvId,
+						epNum: epNum					
+					},
+					success: function(response) {				
+			            // 서버에서 반환된 JSON 객체
+			            let episode = response.EPISODE;
+			            let nextEpNum = response.EP_NUM;
+			            let nextIsPurchased = response.IS_PURCHASED;	
+	
+			        	// 4화부터 유료분이므로, 그에 따른 확인창 생성		        	
+						if (nextEpNum > 3 && !nextIsPurchased.includes(idSession)) {
+			        		Swal.fire({
+			        	        title: '알림',
+			        	        text: '유료화입니다. 소장하시겠습니까? (100P 소모)',
+			                    icon: 'warning',
+			                    showCancelButton: true,
+			                    confirmButtonText: '확인',
+			                    cancelButtonText: '취소'
+			        	    }).then((result) => {
+			        	    	if(result.isConfirmed) {
+			        	    		Swal.fire({
+			        					title: "구매 완료! 100P 차감됩니다.",
+			        					showConfirmButton: false, // OK 버튼을 숨김
+			        					timer: 1000
+			        				}).then(function() {				        	    	
+					        			window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode; // 페이지 리다이렉트
+					        	    	});
+					        	    };
+			        	    	});
+			        	}
+			        	else {
+						window.location.href = 'viewEpisode.do?nvId=' + nvId + '&episode=' + episode; // 페이지 리다이렉트
+			        	}
+					},
+					error: function(error) {
+						// 오류 처리
+						console.error("Error: " + error);
+					}
+				});
+        	};
+		});
+		
+	});
+
+</script>
 
 <!-- 모달 관련 스크립 -->
 <script src="./assets/js/log.js"></script>

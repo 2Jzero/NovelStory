@@ -76,3 +76,23 @@
     margin-bottom: 10px;
 }
 
+/* 회차 이전화 / 다음화 디자인 */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 500px; 
+}
+
+.backward, .forward {
+    padding: 10px 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex; 
+
+}
+
+

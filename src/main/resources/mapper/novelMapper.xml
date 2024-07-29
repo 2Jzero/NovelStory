@@ -31,7 +31,7 @@
 				where nvwriter = #{nvwriter}
 			</select>
         	
-        	<select id="searchNovelList" parameterType="String" resultType="com.novelstory.model.NovelListTO">
+        	<select id="searchNovelList" parameterType="com.novelstory.model.NovelListTO">
         		select nvId, category, nvtitle, nvwriter, imageurl
         		from novel
         		where nvtitle like concat('%', #{searchWord}, '%')

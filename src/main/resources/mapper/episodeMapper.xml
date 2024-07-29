@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
-        <mapper namespace="com.novelstory.mapper.NovelListMapperInter">
+        <mapper namespace="com.novelstory.mapper.EpisodeMapperInter">
 			<select id="viewEpisode" parameterType="com.novelstory.model.EpisodeTO">
 				select EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, IS_PURCHASED
 				from novel_episode_tb
@@ -13,6 +13,18 @@
 				select EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, IS_PURCHASED
 				from novel_episode_tb
 				where nvId = #{nvId} and EPISODE = #{EPISODE}
+			</select>
+			
+			<select id="epMove" parameterType="com.novelstory.model.EpisodeTO">
+				select EPISODE, EP_NUM, IS_PURCHASED
+				from novel_episode_tb
+				where nvId = #{nvId} and EP_NUM = #{EP_NUM}
+			</select>
+			
+			<select id="epNumMax" parameterType="com.novelstory.model.EpisodeTO">
+				select MAX(EP_NUM) AS epNumMax
+				from novel_episode_tb
+				where nvId = #{nvId}
 			</select>
 
 			<update id="isPurchased" parameterType="com.novelstory.model.EpisodeTO">

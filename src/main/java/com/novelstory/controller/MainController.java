@@ -2,7 +2,9 @@ package com.novelstory.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,16 +87,13 @@ public class MainController {
 		
 		String nvwriter = nvTO.getNvwriter();
 		
-		// 다른 작품 리스트에서 현재 소설의 중복을 제거하기 위함
-		String currentNvId = nvId;
-		
 		ArrayList<EpisodeTO> epList = service.viewEpisode(nvId);
 		
 		// 작가의 다른 작품
 		ArrayList<NovelListTO> otherList = new ArrayList<>();
 		
 		// 작가의 다른 작품
-			otherList = service.ohterNovel(nvwriter);
+		otherList = service.ohterNovel(nvwriter);
 
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -116,6 +115,9 @@ public class MainController {
 		EpisodeTO epTO = service.specificEpisode(nvId, EPISODE);
 		
 		String isPurchased = epTO.getIS_PURCHASED();
+		
+		// 회차의 마지막화
+		int epNumMax = service.epNumMax(nvId);
 		
 		// X를 조건식에 사용하기 위함
     	Set<String> purchasedIdsSet = new HashSet<>(Arrays.asList(epTO.getIS_PURCHASED().split("/")));
@@ -154,7 +156,35 @@ public class MainController {
 		modelAndView.setViewName("main/viewEpisode");
 		modelAndView.addObject("nvTO", nvTO);
 		modelAndView.addObject("epTO", epTO);
+		modelAndView.addObject("purchasedIdsSet", purchasedIdsSet);
+		modelAndView.addObject("epNumMax", epNumMax);
 		return modelAndView;
+	}
+	
+	// 이전화
+	@RequestMapping("epBackward.do")
+	Map<String, Object> epBackward(@RequestParam("nvId") String nvId, @RequestParam("epNum") int epNum) {
+		
+		// 이전화기 떄문에 -1 해주기
+		int EP_NUM = epNum - 1;
+		
+		// -1한 epNum을 통하여 episode값을 가져옴( ex > 2화면 1화의 id값)
+        Map<String, Object> epInfo = service.epMove(nvId, EP_NUM);
+				
+		return epInfo;
+	}
+	
+	// 다음화에 필요한 EPISODE값 반환하는 메서드
+	@RequestMapping("epForward.do")
+	Map<String, Object> epForward(@RequestParam("nvId") String nvId, @RequestParam("epNum") int epNum) {
+		
+		// 이전화기 떄문에 -1 해주기
+		int EP_NUM = epNum + 1;
+		
+		// +1한 epNum을 통하여 episode,EP_NUM,IS_PURCHASED값을 가져옴( ex > 2화면 3화의 id값)
+        Map<String, Object> epInfo = service.epMove(nvId, EP_NUM);
+        
+		return epInfo;
 	}
 	
 	// 소설 구매 실패 페이지
