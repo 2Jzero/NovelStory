@@ -79,7 +79,7 @@
 			<% if (idSession == null) { %>
 	        	<li><a id="loginModal">로그인</a></li>
 			<% } else { %>
-			    <li><a id="mypage"> <%=idSession %>의 페이지</a></li>
+			    <li><a href="novelMypage.do"> <%=idSession %>의 페이지</a></li>
 		        <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
 			    <li><a id="logout">로그아웃</a></li>
 			<% } %>

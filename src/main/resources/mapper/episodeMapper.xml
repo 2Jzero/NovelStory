@@ -3,6 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
         <mapper namespace="com.novelstory.mapper.EpisodeMapperInter">
+        	<select id="myList" parameterType="com.novelstory.model.EpisodeTO">
+				select EPISODE, nvId, EP_NUM, EP_TITLE, IS_PURCHASED
+				from novel_episode_tb
+				where IS_PURCHASED like CONCAT('%', #{userId}, '%')
+			</select>
+        
 			<select id="viewEpisode" parameterType="com.novelstory.model.EpisodeTO">
 				select EPISODE, nvId, EP_NUM, EP_TITLE, EP_CONTENT, IS_PURCHASED
 				from novel_episode_tb

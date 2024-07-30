@@ -132,7 +132,7 @@
 			        	// 4화부터 유료분이므로, 그에 따른 확인창 생성		        	
 						// 가끔 4화를 구매해야하는데 5화를 구매하는 경우 이전화를 누를때 그냥 넘어가는것을 방지하기위해 이 조건문을 걸어줌
 						// 이렇게 하면 이전화 버튼을 누를시에 무료화여도 알림창이 뜨는 경우가 있어 이를 방지하기 위해 무료도 확인
-						if (nextEpNum > 3 && !nextIsPurchased.includes(idSession) && !nextIsPurchased.includes("무료")) {
+						if (nextEpNum > 3 && !nextIsPurchased.includes(idSession)) {
 			        		Swal.fire({
 			        	        title: '알림',
 			        	        text: '유료화입니다. 소장하시겠습니까? (100P 소모)',

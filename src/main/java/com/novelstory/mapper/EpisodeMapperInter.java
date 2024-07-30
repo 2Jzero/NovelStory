@@ -12,6 +12,9 @@ import com.novelstory.model.NovelListTO;
 @Mapper
 public interface EpisodeMapperInter {
 
+	/* 나의 소장한 소설 리스트 */
+	ArrayList<EpisodeTO> myList(String userId);
+	
 	/* 선택한 소설의 회차 접근 */
 	ArrayList<EpisodeTO> viewEpisode(String nvId);
 	
@@ -26,7 +29,6 @@ public interface EpisodeMapperInter {
 	
 	// 소설의 마지막화
 	int epNumMax(String nvId);
-	
 	
 	// 회차 더미 데이터
 	//int insertData(EpisodeTO epTO);

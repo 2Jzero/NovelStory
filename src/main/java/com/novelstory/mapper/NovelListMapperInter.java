@@ -29,6 +29,9 @@ public interface NovelListMapperInter {
 	/* 작가의 다른 작품 리스트 */
 	ArrayList<NovelListTO> ohterNovel(String nvwriter);
 	
+	/* 구입한 회차의 소설 리스트 */
+	ArrayList<NovelListTO> purchasedNovel(String nvId);
+	
 	// 회차 더미 데이터
 	//int insertData(EpisodeTO epTO);
 	

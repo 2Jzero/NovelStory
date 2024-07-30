@@ -25,6 +25,12 @@
 				where nvId = #{nvId}
 			</select>
 			
+			<select id="purchasedNovel" parameterType="com.novelstory.model.NovelListTO">
+				select nvId, category, nvtitle, nvwriter, imageurl
+				from novel
+				where nvId = #{nvId}
+			</select>
+			
 			<select id="ohterNovel" parameterType="com.novelstory.model.NovelListTO">
 				select nvId, category, nvtitle, imageurl
 				from novel
@@ -34,7 +40,7 @@
         	<select id="searchNovelList" parameterType="com.novelstory.model.NovelListTO">
         		select nvId, category, nvtitle, nvwriter, imageurl
         		from novel
-        		where nvtitle like concat('%', #{searchWord}, '%')
+        		where nvtitle LIKE CONCAT('%', #{searchWord}, '%')
         	</select>
         	
         <!-- <insert id="insertData" parameterType="com.novelstory.model.EpisodeTO">
