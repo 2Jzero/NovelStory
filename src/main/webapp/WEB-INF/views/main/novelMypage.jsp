@@ -17,7 +17,13 @@
 	
 	for(NovelListTO nvTO : novelInfo) {
 	
-	sbHtml.append("<div>" + nvTO.getNvtitle() + "</div>");
+		sbHtml.append("<div class='card'>");
+	    sbHtml.append("<a href='novelView.do?nvId="+ nvTO.getNvId() +"'>");
+	    sbHtml.append("<img src='" + nvTO.getImageurl() + "' class='card-img-top' alt='...'>");
+	    sbHtml.append("</a>"); 
+	    sbHtml.append("<div class='card-body'>" + nvTO.getNvtitle() + "</div>");
+	    sbHtml.append("<div class='card-body'>" + nvTO.getNvwriter() + "</div>"); 
+	    sbHtml.append("</div>");
 
 	}
 
@@ -83,7 +89,8 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="mypageLabel"><%=idSession %>님의 소장 중인 소설 목록</div>
+<div class="card-container">
 	<%=sbHtml %>
 </div>
 

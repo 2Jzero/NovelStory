@@ -240,3 +240,16 @@
 
 }
 
+/* Mypage css */
+.mypageLabel {
+	width: 75%;
+	text-align: center;
+	margin: 0 auto; /* 좌우 여백을 자동으로 조정하여 가운데 정렬 */
+	font-family: Dovemayo_gothic;
+	font-size: 25px;
+	margin-bottom: 50px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    
+}
+
