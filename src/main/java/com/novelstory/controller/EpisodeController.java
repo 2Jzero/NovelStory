@@ -49,9 +49,9 @@ public class EpisodeController {
 		// 회차의 마지막화
 		int epNumMax = eService.epNumMax(nvId);
 		
-		// X를 조건식에 사용하기 위함
+		// contains 성능이 Set에서 더 빠르다 해서 사용
     	Set<String> purchasedIdsSet = new HashSet<>(Arrays.asList(epTO.getIS_PURCHASED().split("/")));
-		
+    			
 		
 		String userId = (String)session.getAttribute("logId");
 		Integer myPoint = (Integer)session.getAttribute("point");

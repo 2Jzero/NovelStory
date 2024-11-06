@@ -75,7 +75,7 @@
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
-	        <li><a href="novelstorypayments.do">토큰 구매</a></li>
+	        <li><a href="novelstorypayments.do">포인트 구매</a></li>
 			<% if (idSession == null) { %>
 	        	<li><a id="loginModal">로그인</a></li>
 			<% } else { %>

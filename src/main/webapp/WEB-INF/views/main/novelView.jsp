@@ -131,7 +131,7 @@
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
-	        <li><a href="novelstorypayments.do">토큰 구매</a></li>
+	        <li><a href="novelstorypayments.do">포인트 구매</a></li>
 			<li><a href="novelMypage.do"> <%=idSession %>의 페이지</a></li>
 		    <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
 			<li><a id="logout">로그아웃</a></li>

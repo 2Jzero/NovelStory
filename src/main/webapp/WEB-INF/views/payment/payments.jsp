@@ -13,7 +13,7 @@ Integer myPoint = (Integer)session.getAttribute("point");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Novel Story : 코인 결제</title>
+<title>Novel Story : 포잊트 결제</title>
 
 <!-- main화면 디자인 CSS -->
 <link rel="stylesheet" href="assets/css/main.css"/>
@@ -52,7 +52,7 @@ Integer myPoint = (Integer)session.getAttribute("point");
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
-	        <li><a href="novelstorypayments.do">토큰 구매</a></li>
+	        <li><a href="novelstorypayments.do">포인트 구매</a></li>
 			<li><a href="novelMypage.do"> <%=idSession %>의 페이지</a></li>
 		    <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
 			<li><a id="logout">로그아웃</a></li>
@@ -76,13 +76,13 @@ Integer myPoint = (Integer)session.getAttribute("point");
 
 <div class="card-container2">
 	<div class="card2">
-		코인 1개 : 100원 <button class="btn btn-outline-primary" data-amount="100">결제하기</button><br><br>
-		코인 11개 : 1000원 <button class="btn btn-outline-primary" data-amount="1000">결제하기</button><br><br>
-		코인 110개 : 10000원 <button class="btn btn-outline-primary" data-amount="10000">결제하기</button><br><br>
-		코인 360개 : 30000원 <button class="btn btn-outline-primary" data-amount="10000">결제하기</button><br><br><br>
+		100P : 100원 <button class="btn btn-outline-primary" data-amount="100">결제하기</button><br><br>
+		1100P : 1000원 <button class="btn btn-outline-primary" data-amount="1100">결제하기</button><br><br>
+		12000P : 10000원 <button class="btn btn-outline-primary" data-amount="12000">결제하기</button><br><br>
+		36000P : 30000원 <button class="btn btn-outline-primary" data-amount="36000">결제하기</button><br><br><br>
 		
 		<div style="color:coral">한달마다 결제시 기간 내 소설 무한 보기 가능!</div>
-		매달 월정액 : 9900원  <button class="btn btn-outline-primary" data-amount="10000">결제하기</button><br><br>
+		매달 월정액 : 9900원  <button class="btn btn-outline-primary" data-amount="999999">결제하기</button><br><br>
 	</div>
 </div>
 
