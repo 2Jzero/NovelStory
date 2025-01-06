@@ -2,9 +2,15 @@ package com.novelstory.service;
 
 
 
+import java.net.http.HttpHeaders;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.novelstory.mapper.UserMapperInter;
 import com.novelstory.model.UserTO;
@@ -34,6 +40,25 @@ public class UserService {
 		int result = mapper.userSign(to);
 		
 		if(result == 1) {
+			flag = 0;
+		}
+				
+		return flag;
+	}
+	
+	//  카카오 회원가입
+	public int kakaoUserSign(UserTO to) {
+		
+		int flag = 1;
+		
+		// 카카오 로그인 시 db에 정보가 들어가서, 정보가 중복으로 들어가는 것을 방지하기 위한 코드
+		UserTO result = mapper.userInfo(to.getUserId());
+		
+		// id값이 db에 없으면 추가, 있으면 로그인 정보 가져옴
+		if(result == null) {
+			mapper.userSign(to);
+			flag = 0;
+		} else if(result != null) {
 			flag = 0;
 		}
 				
@@ -106,5 +131,6 @@ public class UserService {
 
 		return pointUpdate;
 	}
+
 	
 }

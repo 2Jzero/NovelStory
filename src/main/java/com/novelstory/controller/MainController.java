@@ -36,19 +36,20 @@ public class MainController {
 	@RequestMapping("novelStory.do")
 	public ModelAndView novelStory(@RequestParam(value= "category", required = false)  String category, HttpServletRequest request) {
 		
-		ArrayList<NovelListTO> novelList = service.novelList();
-						
+		// 소설 리스트
 		ArrayList<NovelListTO> categoryList = service.categoryList(category);
 		
 		EpisodeTO epTO = new EpisodeTO();
 		
 		String searchWord = request.getParameter("searchWord");
 
+		// category가 null일 경우 전체 리스트 출력
 		if(category == null) {
 			
 			categoryList = service.novelList();
 		}
 		
+		// 검색했을 경우 해당 검색 관련 리스트 출력
 		if(searchWord != null) {
 			
 			categoryList = service.searchNovelList(searchWord);
@@ -133,6 +134,7 @@ public class MainController {
 
 		String nvwriter = nvTO.getNvwriter();
 
+		// 해당 소설의 회차
 		ArrayList<EpisodeTO> epList = vService.viewEpisode(nvId);
 
 		// 작가의 다른 작품

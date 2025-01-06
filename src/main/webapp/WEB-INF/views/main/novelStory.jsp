@@ -5,10 +5,8 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-	// 전체 소설 리스트
-	ArrayList<NovelListTO> novelList = (ArrayList) request.getAttribute("novelList");
 
-	// 장르별 소설 리스트
+	// 소설 리스트
 	ArrayList<NovelListTO> categoryList = (ArrayList) request.getAttribute("categoryList");
 	
 	StringBuilder sbHtml = new StringBuilder();
@@ -98,6 +96,8 @@
 	    비밀번호 <input type="password" id="loginPw" name="loginPw" />
 	    <button type="submit" class="btn btn-info" id="login">로그인</button>
 	    <a id="signModal">회원가입</a>
+     	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=dda5b7829285c1bc14a5df7faa52c6df&redirect_uri=http://localhost:8080/novelstory/kakao-login"><img src="./assets/images/kakao_login.png"></a>
+	    
 	</div>
 </div>
     

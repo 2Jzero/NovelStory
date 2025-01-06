@@ -1,16 +1,19 @@
 package com.novelstory.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.novelstory.model.UserTO;
+import com.novelstory.service.KakaoService;
 import com.novelstory.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +25,9 @@ public class UserController {
 	private static final UserTO UserTO = null;
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private KakaoService kService;
 
 	// 로그인
 	@RequestMapping("novelStoryLogin.do")
@@ -117,6 +123,47 @@ public class UserController {
 
 		return modelAndView;
 		
+	}
+	
+	// 카카오 로그인
+	@GetMapping("/novelstory/kakao-login")
+	public ModelAndView kakaoLogin(@RequestParam String code, HttpServletRequest request) {
+		//String accessToken =
+		
+		String aceessToken = kService.getAccessToken(code);
+		
+		// accessToken을 통해 얻은 유저 정보
+		Map<String, Object> userInfo = kService.getKakaoUserInfo(aceessToken);
+		
+		// 회원 카카오 id
+		String kakaoId = String.valueOf(userInfo.get("id")) + "(카카오)";		
+		
+		// 카카오 로그인 정보를 넣을 UserTO
+		UserTO to = new UserTO();
+		
+		to.setUserId(kakaoId);
+		to.setPassword("Kakao");
+		to.setUserBirth("00000000");
+		to.setUserPhone("00000000000");
+		to.setUserPoint(0);
+		
+		int flag = service.kakaoUserSign(to);
+		
+		
+		if(flag == 0) {
+		HttpSession session = request.getSession();
+		
+		session.setAttribute("logId", to.getUserId());
+		session.setAttribute("point", to.getUserPoint());
+		session.setMaxInactiveInterval(60 * 60);
+				
+		}
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("login/loginOk");
+		modelAndView.addObject("flag", flag);
+		
+		return modelAndView;
 	}
 	
 	
