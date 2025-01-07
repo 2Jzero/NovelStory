@@ -111,29 +111,15 @@ public class UserController {
 	}
 	
 	
-	// 로그아웃
-	@RequestMapping("/logout.do")
-	public ModelAndView userLogout(HttpServletRequest request) {
-		
-		HttpSession session = request.getSession();
-		session.invalidate();
-		
-		ModelAndView modelAndView = new ModelAndView();
-	    modelAndView.setViewName("redirect:/novelStory.do"); // novelStory.do로 리다이렉트
-
-		return modelAndView;
-		
-	}
-	
 	// 카카오 로그인
-	@GetMapping("/novelstory/kakao-login")
+	@GetMapping("/kakao-login")
 	public ModelAndView kakaoLogin(@RequestParam String code, HttpServletRequest request) {
 		//String accessToken =
 		
-		String aceessToken = kService.getAccessToken(code);
+		String accessToken = kService.getAccessToken(code);
 		
 		// accessToken을 통해 얻은 유저 정보
-		Map<String, Object> userInfo = kService.getKakaoUserInfo(aceessToken);
+		Map<String, Object> userInfo = kService.getKakaoUserInfo(accessToken);
 		
 		// 회원 카카오 id
 		String kakaoId = String.valueOf(userInfo.get("id")) + "(카카오)";		
@@ -141,11 +127,12 @@ public class UserController {
 		// 카카오 로그인 정보를 넣을 UserTO
 		UserTO to = new UserTO();
 		
+		//이 부분을 막아야한다.
 		to.setUserId(kakaoId);
 		to.setPassword("Kakao");
 		to.setUserBirth("00000000");
 		to.setUserPhone("00000000000");
-		to.setUserPoint(0);
+		to.setUserPoint(0); // 이 포인트값을 세션으로 써서 그러니까 이거 바꾸면 된다.
 		
 		int flag = service.kakaoUserSign(to);
 		
@@ -155,6 +142,7 @@ public class UserController {
 		
 		session.setAttribute("logId", to.getUserId());
 		session.setAttribute("point", to.getUserPoint());
+		session.setAttribute("accessToken", accessToken);
 		session.setMaxInactiveInterval(60 * 60);
 				
 		}
@@ -166,6 +154,32 @@ public class UserController {
 		return modelAndView;
 	}
 	
+	
+	// 로그아웃
+	@RequestMapping("/logout.do")
+	public ModelAndView userLogout(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		String userId = (String) session.getAttribute("logId");
+		String accessToken = (String) session.getAttribute("accessToken");
+		
+		// 로그아웃 메서드 호출 변수
+		boolean flag = false;
+		
+		if(userId.contains("카카오")) {
+			flag = kService.logout(accessToken);
+		}
+				
+		session.invalidate();
+		
+		
+		ModelAndView modelAndView = new ModelAndView();
+	    modelAndView.setViewName("redirect:/novelStory.do"); // novelStory.do로 리다이렉트
+
+		return modelAndView;
+		
+	}
 	
 	
 

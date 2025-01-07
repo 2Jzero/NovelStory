@@ -30,7 +30,7 @@ public class KakaoService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "dda5b7829285c1bc14a5df7faa52c6df");
-        params.add("redirect_uri", "http://localhost:8080/novelstory/kakao-login");
+        params.add("redirect_uri", "http://localhost:8080/kakao-login");
         params.add("code", code);
         
         // POST 요청 (request body에 파라미터를 담아 전송)

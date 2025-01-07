@@ -58,6 +58,8 @@ public class UserService {
 		if(result == null) {
 			mapper.userSign(to);
 			flag = 0;
+			
+			return flag;
 		} else if(result != null) {
 			flag = 0;
 		}

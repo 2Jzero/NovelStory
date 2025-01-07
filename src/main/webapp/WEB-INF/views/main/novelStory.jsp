@@ -16,7 +16,7 @@
 	// 로그인한 회원의 id session 과 포인트
 	String idSession = (String)session.getAttribute("logId");
 	Integer myPoint = (Integer)session.getAttribute("point");
-	
+		
 	if(categoryList.size() != 0) {
 		for(NovelListTO nvTO : categoryList) {
 			
@@ -96,7 +96,7 @@
 	    비밀번호 <input type="password" id="loginPw" name="loginPw" />
 	    <button type="submit" class="btn btn-info" id="login">로그인</button>
 	    <a id="signModal">회원가입</a>
-     	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=dda5b7829285c1bc14a5df7faa52c6df&redirect_uri=http://localhost:8080/novelstory/kakao-login"><img src="./assets/images/kakao_login.png"></a>
+     	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=dda5b7829285c1bc14a5df7faa52c6df&redirect_uri=http://localhost:8080/kakao-login"><img src="./assets/images/kakao_login.png"></a>
 	    
 	</div>
 </div>
