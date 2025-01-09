@@ -132,7 +132,7 @@ public class UserController {
 		to.setPassword("Kakao");
 		to.setUserBirth("00000000");
 		to.setUserPhone("00000000000");
-		to.setUserPoint(0); // 이 포인트값을 세션으로 써서 그러니까 이거 바꾸면 된다.
+		to.setUserPoint(0);
 		
 		int flag = service.kakaoUserSign(to);
 		
@@ -140,8 +140,10 @@ public class UserController {
 		if(flag == 0) {
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("logId", to.getUserId());
-		session.setAttribute("point", to.getUserPoint());
+		UserTO kakaoUser = service.userInfo(kakaoId);
+		
+		session.setAttribute("logId", kakaoUser.getUserId());
+		session.setAttribute("point", kakaoUser.getUserPoint());
 		session.setAttribute("accessToken", accessToken);
 		session.setMaxInactiveInterval(60 * 60);
 				
