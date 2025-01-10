@@ -25,6 +25,7 @@ window.onload = function() {
 						showConfirmButton: false,
 						timer: 1000
 					}).then(() => {
+						sessionStorage.setItem("logId", userId);
 						window.location.href = "novelStoryLogin.do"; // 페이지 리다이렉트
 					});
 				} else {

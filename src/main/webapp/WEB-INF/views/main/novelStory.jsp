@@ -73,6 +73,7 @@
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
+	        <li><a id="dailyGacha">일일 무료 뽑기</a></li>
 	        <li><a href="novelstorypayments.do">포인트 구매</a></li>
 			<% if (idSession == null) { %>
 	        	<li><a id="loginModal">로그인</a></li>
@@ -158,6 +159,7 @@
 <!-- js 스크립 -->
 <script src="./assets/js/log.js"></script>
 <script src="./assets/js/signUp.js"></script>
+<script src="./assets/js/gacha.js"></script>
 <script src="./assets/js/modal.js"></script>
 <script src="./assets/js/birthday.js"></script>
 <script src="./assets/js/categoryAjax.js"></script>

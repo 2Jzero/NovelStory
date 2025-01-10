@@ -122,7 +122,7 @@ public class UserController {
 		Map<String, Object> userInfo = kService.getKakaoUserInfo(accessToken);
 		
 		// 회원 카카오 id
-		String kakaoId = String.valueOf(userInfo.get("id")) + "(카카오)";		
+		String kakaoId = String.valueOf(userInfo.get("id")) + "-KAKAO";		
 		
 		// 카카오 로그인 정보를 넣을 UserTO
 		UserTO to = new UserTO();

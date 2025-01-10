@@ -2,9 +2,12 @@ package com.novelstory.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +20,9 @@ import com.novelstory.service.NovelService;
 import com.novelstory.service.UserService;
 import com.novelstory.service.EpisodeService;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -183,6 +188,54 @@ public class MainController {
 		modelAndView.setViewName("main/novelMypage");
 		modelAndView.addObject("novelInfo", novelInfo);
 		return modelAndView;
+	}
+	
+	@PostMapping("dailyGacha.do")
+	public int dailyGacha(@RequestParam("sessionId") String userId, HttpServletResponse response, HttpSession session) {
+		
+		UserTO userInfo = uService.userInfo(userId);
+		
+		// 해당 유저의 포인트
+		int userPoint = userInfo.getUserPoint();
+		
+		// 뽑기 후 결과 값을 저장할 포인트
+		int newPoint = 0;
+		
+		int[] points = {100, 200, 300, 500};
+		double[] probabilities = {0.5, 0.3, 0.15, 0.05};
+		
+		int returnPoint = 0;
+		
+		Random rand = new Random();
+		double randomValue = rand.nextDouble(); // 0.0 ~ 1.0
+		
+		if(randomValue <= probabilities[0]) {
+			// 현재 내 포인트에 당첨된 포인트를 더하여 합산
+			newPoint = userPoint + points[0];
+			// 당첨된 포인트를 알려주기 위한 반환값
+			returnPoint = points[0];
+		} else if(randomValue > probabilities[0] && randomValue <= probabilities[0] + probabilities[1]) {
+			newPoint = userPoint + points[1];
+			returnPoint = points[1];
+		} else if(randomValue > probabilities[0] + probabilities[1] && randomValue <= probabilities[1] + probabilities[2]) {
+			newPoint = userPoint + points[2];
+			returnPoint = points[2];
+		} else {
+			newPoint = userPoint + points[3];
+			returnPoint = points[3];
+		};
+		
+		int flag = uService.myPoint(newPoint, userId);
+		
+		session.setAttribute("point", newPoint);
+		
+		Cookie cookie = new Cookie("isAlreadyGaCha-" + userId, userId);
+		cookie.setMaxAge(60 * 60 * 24); // 기간 1일
+		cookie.setPath("/"); // 쿠키 유효 경로 설정, 모두 적용하게 /
+	    response.addCookie(cookie); // 클라이언트로 쿠키 전송
+
+		
+		return returnPoint;
 	}
 
 }
