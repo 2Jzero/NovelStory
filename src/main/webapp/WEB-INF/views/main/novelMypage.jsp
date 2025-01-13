@@ -67,10 +67,11 @@
 				    <button type="submit"><i class="fas fa-search"></i></button>
 	            </form>
 	        </li>
+	        <li><a id="dailyGacha">일일 무료 뽑기</a></li>
 	        <li><a href="novelstorypayments.do">포인트 구매</a></li>
-			<li><a id="mypage"> <%=idSession %>의 페이지</a></li>
+			<li><a href="novelMypage.do"> <%=idSession %>의 페이지</a></li>
 		    <li><a><i class="fa-solid fa-coins" style="color:yellow"></i> <%=myPoint %>P</a></li>
-			<li><a id="logout">로그아웃</a></li>
+		    <li><a id="logout">로그아웃</a></li>
 	    </ul>
 	</div>
 </nav>
@@ -98,6 +99,8 @@
 
 <!-- 모달 관련 스크립 -->
 <script src="./assets/js/log.js"></script>
+<script src="./assets/js/gacha.js"></script>
+
 
 <% } else { %>
 <script>
